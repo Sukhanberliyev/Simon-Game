@@ -16,7 +16,7 @@ $(".btn").click(function() {
 
   animatePress(userChosenColour);
 
-  checkAnswer(userClickedPattern.length-1);
+  checkAnswer(userClickedPattern.length - 1);
 
 });
 
@@ -55,10 +55,9 @@ function animatePress(currentColour) {
 
 //Keyboard pressed
 
-$(document).keyPress(function() {
-  if(!started){
-
-    $("#level-title").text("lever" + level);
+$(document).keypress(function() {
+  if (!started) {
+    $("#level-title").text("Level " + level);
     nextSequence();
     started = true;
 
@@ -67,22 +66,38 @@ $(document).keyPress(function() {
 
 function checkAnswer(currentLevel) {
 
-    if (gamePattern[currentLevel] === userClickedPattern[currentLevel]) {
+  if (gamePattern[currentLevel] === userClickedPattern[currentLevel]) {
 
-      console.log("success");
+    console.log("success");
 
-      if (userClickedPattern.length === gamePattern.length){
+    if (userClickedPattern.length === gamePattern.length) {
 
-        setTimeout(function () {
-          nextSequence();
-        }, 1000);
-
-      }
-
-    } else {
-
-      console.log("wrong");
+      setTimeout(function() {
+        nextSequence();
+      }, 1000);
 
     }
 
+  } else {
+
+    console.log("wrong");
+
+    playSound("wrong");
+
+    $("body").addClass("game-over");
+    setTimeout(function() {
+      $("body").removeClass("game-over");
+    }, 200);
+
+    $("#text-title").text("Game Over, Press Any Key to Restart")
+
+    startOver();
+  }
+}
+
+function startOver() {
+
+  level = 0;
+  gamePattern = [];
+  started = false;
 }
